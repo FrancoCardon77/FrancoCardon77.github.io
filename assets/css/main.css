@@ -248,7 +248,6 @@ input, select, textarea {
 	.fotofranco {
 		height: 20rem;
 		width: 20rem;
-		background-image: url(../../images/francofoto.png) contain ;
 		background-size: cover;
 	}
 
