@@ -174,6 +174,31 @@ nav.scrolled{padding:1rem 3.5rem;background:rgba(6,6,6,.88);backdrop-filter:blur
   .stack-group:last-child{border-bottom:none}.stats-grid{grid-template-columns:1fr 1fr}
   .hero-scroll-hint,.hero-coords{display:none}.contact-big{font-size:clamp(2.8rem,14vw,5rem)}
 }
+
+@property --neon-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes neonSpin{to{--neon-angle:360deg}}
+.project-item.capibara-card{
+  position:relative;
+  background:linear-gradient(135deg,#0d0020 0%,#0a0015 100%) padding-box,
+    conic-gradient(from var(--neon-angle),#00f0ff,#b400ff,#7000ff,#00f0ff) border-box;
+  border:2px solid transparent;
+  animation:neonSpin 3s linear infinite;
+  box-shadow:0 0 24px rgba(180,0,255,.15), 0 0 48px rgba(0,240,255,.08);
+  transition:box-shadow .3s;
+}
+.project-item.capibara-card:hover{
+  box-shadow:0 0 32px rgba(180,0,255,.35), 0 0 64px rgba(0,240,255,.18);
+}
+.project-item.capibara-card .project-name{
+  background:linear-gradient(90deg,#e0b0ff,#00f0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.project-item.capibara-card .project-arrow{
+  color:#b400ff;
+  text-shadow:0 0 12px #b400ff;
+}
 </style>
 </head>
 <body>
@@ -297,7 +322,7 @@ nav.scrolled{padding:1rem 3.5rem;background:rgba(6,6,6,.88);backdrop-filter:blur
     <span class="section-badge reveal">Proyectos</span>
     <h2 class="section-title reveal">LO QUE<br>CONSTRUÍ.</h2>
     <div class="project-list">
-      <div class="project-item reveal d1">
+      <a href="https://capibara-studio.com" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block"><div class="project-item reveal d1 capibara-card">
         <div class="project-num">01</div>
         <div class="project-body">
           <div class="project-name">Capibara Studio</div>
@@ -306,7 +331,7 @@ nav.scrolled{padding:1rem 3.5rem;background:rgba(6,6,6,.88);backdrop-filter:blur
           <div class="chip-row"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">React</span><span class="chip">AWS</span><span class="chip">Redis</span><span class="chip">PostgreSQL</span></div>
         </div>
         <div class="project-arrow">↗</div>
-      </div>
+      </div></a>
       <div class="project-item reveal d2">
         <div class="project-num">02</div>
         <div class="project-body">
