@@ -199,6 +199,67 @@ nav.scrolled{padding:1rem 3.5rem;background:rgba(6,6,6,.88);backdrop-filter:blur
   color:#b400ff;
   text-shadow:0 0 12px #b400ff;
 }
+
+.hero-capibara{
+  position:absolute;
+  right:8%;
+  top:50%;
+  transform:translateY(-50%);
+}
+@property --cap-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes capSpin{to{--cap-angle:360deg}}
+.capibara-widget{
+  display:block;
+  text-decoration:none;
+  padding:20px 28px;
+  background:linear-gradient(135deg,#0d0020,#08000f) padding-box,
+    conic-gradient(from var(--cap-angle),#00f0ff 0%,#7000ff 40%,#b400ff 60%,#00f0ff 100%) border-box;
+  border:2px solid transparent;
+  border-radius:8px;
+  animation:capSpin 3s linear infinite;
+  box-shadow:0 0 30px rgba(176,0,255,.2),0 0 60px rgba(0,240,255,.1);
+  width:220px;
+  transition:box-shadow .3s,transform .3s;
+}
+.capibara-widget:hover{
+  box-shadow:0 0 40px rgba(176,0,255,.4),0 0 80px rgba(0,240,255,.2);
+  transform:translateY(-3px);
+}
+.cap-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  letter-spacing:3px;
+  color:#7000ff;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.cap-name{
+  font-family:var(--font-display);
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#e0b0ff,#00f0ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:6px;
+}
+.cap-url{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:#7070ff;
+  letter-spacing:1px;
+}
+.cap-arrow{
+  display:inline-block;
+  margin-top:14px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:#b400ff;
+  text-shadow:0 0 8px #b400ff;
+  letter-spacing:2px;
+}
+@media(max-width:1024px){.hero-capibara{display:none}}
 </style>
 </head>
 <body>
@@ -232,6 +293,14 @@ nav.scrolled{padding:1rem 3.5rem;background:rgba(6,6,6,.88);backdrop-filter:blur
       <a href="#experience" class="btn btn-fill">Ver mi trabajo →</a>
       <a href="#contact" class="btn btn-ghost">Contactarme</a>
     </div>
+  </div>
+  <div class="hero-capibara">
+    <a href="https://capibara-studio.com" target="_blank" rel="noopener" class="capibara-widget">
+      <div class="cap-label">// proyecto propio</div>
+      <div class="cap-name">CAPIBARA STUDIO</div>
+      <div class="cap-url">capibara-studio.com</div>
+      <div class="cap-arrow">Ver proyecto ↗</div>
+    </a>
   </div>
   <div class="hero-bottom">
     <div class="hero-scroll-hint"><div class="scroll-line"></div>Scroll</div>
