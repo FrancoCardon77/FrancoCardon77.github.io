@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Franco E. Cardón — Backend Technical Lead</title>
+  <meta name="description" content="Backend Technical Lead · Java / Spring Boot / GCP / Kubernetes · Co-founder of Capibara Estudio · Buenos Aires, Argentina" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #060606;
+      --bg-2:         #0e0e0e;
+      --bg-3:         #161616;
+      --text:         #f0f0f0;
+      --text-muted:   #4a4a4a;
+      --text-dim:     #888;
+      --accent:       #c8ff00;
+      --accent-rgb:   200, 255, 0;
+      --accent-dark:  #9dc200;
+      --border:       #1e1e1e;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'Epilogue', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --ease:         cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in:      cubic-bezier(0.7, 0, 1, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* GRAIN */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9000;
+      animation: grainShift 0.4s steps(2) infinite;
+    }
+    @keyframes grainShift {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-1%, 1%); }
+      50%  { transform: translate(1%, -1%); }
+      75%  { transform: translate(-1%, -1%); }
+      100% { transform: translate(1%, 1%); }
+    }
+
+    /* ─── CURSOR ─────────────────────────────── */
+    #cursor-dot {
+      position: fixed; width: 5px; height: 5px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width .2s var(--ease), height .2s var(--ease), background .2s;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1px solid rgba(var(--accent-rgb), .35);
+      border-radius: 50%; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .35s var(--ease), height .35s var(--ease),
+                  border-color .35s, background .35s;
+    }
+    .cursor-hover #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), .04);
+    }
+    .cursor-hover #cursor-dot { width: 4px; height: 4px; }
+
+    /* ─── NAV ────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto 0;
+      z-index: 200;
+      padding: 1.75rem 3.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: padding .4s var(--ease), background .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      padding: 1rem 3.5rem;
+      background: rgba(6,6,6,.88);
+      backdrop-filter: blur(16px);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1rem;
+      letter-spacing: .08em; color: var(--text);
+      text-decoration: none; transition: color .3s;
+    }
+    .nav-logo em { color: var(--accent); font-style: normal; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--text-muted); text-decoration: none;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .25s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width .3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ─── SHARED ─────────────────────────────── */
+    .container { max-width: 1380px; margin: 0 auto; padding: 0 3.5rem; }
+
+    .section-badge {
+      font-family: var(--font-mono); font-size: .65rem;
+      color: var(--accent); letter-spacing: .2em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: inline-flex; align-items: center; gap: .6rem;
+    }
+    .section-badge::before {
+      content: ''; width: 1.75rem; height: 1px; background: var(--accent);
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .08s; }
+    .d2 { transition-delay: .16s; }
+    .d3 { transition-delay: .24s; }
+    .d4 { transition-delay: .32s; }
+    .d5 { transition-delay: .40s; }
+
+    /* ─── HERO ───────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 3.5rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* mesh blobs */
+    .hero-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(120px); pointer-events: none;
+    }
+    .blob-1 {
+      width: 55vw; height: 55vw; max-width: 700px; max-height: 700px;
+      background: rgba(var(--accent-rgb), 1);
+      opacity: .045;
+      top: -15%; right: -10%;
+      animation: blobMove1 12s ease-in-out infinite alternate;
+    }
+    .blob-2 {
+      width: 40vw; height: 40vw; max-width: 500px; max-height: 500px;
+      background: #2060ff;
+      opacity: .04;
+      bottom: -10%; left: 5%;
+      animation: blobMove2 15s ease-in-out infinite alternate;
+    }
+    @keyframes blobMove1 {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(-4%, 5%) scale(1.08); }
+    }
+    @keyframes blobMove2 {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(4%, -4%) scale(.92); }
+    }
+
+    /* hero grid lines */
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--accent); letter-spacing: .16em; text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp .7s var(--ease) .25s forwards;
+    }
+    .hero-eyebrow::before { content: '// '; opacity: .45; }
+
+    .hero-name {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(4.5rem, 11.5vw, 10.5rem);
+      line-height: .92; letter-spacing: -.035em;
+      overflow: hidden;
+    }
+    .name-row {
+      display: block; overflow: hidden;
+    }
+    .name-inner {
+      display: block;
+      opacity: 0; transform: translateY(105%);
+      animation: slideUp .95s var(--ease) forwards;
+    }
+    .name-row:nth-child(1) .name-inner { animation-delay: .4s; }
+    .name-row:nth-child(2) .name-inner { animation-delay: .55s; }
+    .name-row:nth-child(3) .name-inner { animation-delay: .68s; }
+    .name-accent { color: var(--accent); }
+
+    .hero-sub {
+      font-family: var(--font-body); font-weight: 300;
+      font-size: clamp(.95rem, 1.8vw, 1.35rem);
+      color: var(--text-dim); line-height: 1.7;
+      margin-top: 2rem; margin-bottom: 3rem; max-width: 52ch;
+      opacity: 0;
+      animation: fadeUp .8s var(--ease) 1s forwards;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 400; }
+
+    .hero-actions {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .8s var(--ease) 1.2s forwards;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-mono); font-size: .72rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; padding: .9rem 1.9rem;
+      transition: all .3s var(--ease); position: relative;
+      overflow: hidden;
+    }
+    .btn-fill {
+      background: var(--accent); color: #060606; font-weight: 500;
+      border: 1px solid var(--accent);
+    }
+    .btn-fill:hover {
+      background: #fff; border-color: #fff;
+      transform: translate(-3px, -3px);
+      box-shadow: 5px 5px 0 rgba(var(--accent-rgb), .6);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      color: var(--text); border-color: var(--text-muted);
+      transform: translate(-3px, -3px);
+      box-shadow: 5px 5px 0 var(--border);
+    }
+
+    .hero-bottom {
+      position: absolute; bottom: 2.5rem; left: 0; right: 0;
+      padding: 0 3.5rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      opacity: 0;
+      animation: fadeUp .8s var(--ease) 1.5s forwards;
+    }
+    .hero-scroll-hint {
+      display: flex; align-items: center; gap: .75rem;
+      font-family: var(--font-mono); font-size: .62rem;
+      color: var(--text-muted); letter-spacing: .14em; text-transform: uppercase;
+      writing-mode: vertical-lr;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(var(--text-muted), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: .3; transform: scaleY(1); }
+      50%      { opacity: 1;  transform: scaleY(.7); }
+    }
+    .hero-coords {
+      font-family: var(--font-mono); font-size: .62rem;
+      color: var(--text-muted); letter-spacing: .1em; text-align: right;
+    }
+    .hero-coords span { display: block; color: var(--text-dim); }
+
+    @keyframes fadeUp  { to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── ABOUT ──────────────────────────────── */
+    #about {
+      padding: 9rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1.6fr;
+      gap: 6rem; align-items: start;
+    }
+    .about-left {}
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      border: 1px solid var(--border); margin-top: 3rem;
+    }
+    .stat {
+      padding: 2rem 1.5rem; background: var(--bg-2);
+      transition: background .3s, transform .3s var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .stat::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(var(--accent-rgb),.05) 0%, transparent 70%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .stat:hover { background: var(--bg-3); transform: translateY(-2px); }
+    .stat:hover::before { opacity: 1; }
+    .stat-val {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 3.2rem; line-height: 1; color: var(--accent);
+    }
+    .stat-key {
+      font-family: var(--font-mono); font-size: .62rem;
+      color: var(--text-muted); letter-spacing: .14em;
+      text-transform: uppercase; margin-top: .4rem; display: block;
+    }
+
+    .about-right {}
+    .about-heading {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.1; letter-spacing: -.025em;
+      margin-bottom: 2.5rem;
+    }
+    .about-body {
+      font-size: 1rem; color: var(--text-dim);
+      line-height: 1.85; margin-bottom: 1.5rem;
+    }
+    .about-body strong { color: var(--text); font-weight: 400; }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--text-dim); margin-top: 1.5rem;
+    }
+    .live-dot {
+      width: 6px; height: 6px; background: var(--accent);
+      border-radius: 50%; flex-shrink: 0;
+      animation: livePulse 2s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb),.5); }
+      50%      { box-shadow: 0 0 0 7px rgba(var(--accent-rgb),0); }
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────── */
+    #experience {
+      padding: 9rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .exp-title-row {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(3rem, 6.5vw, 6.5rem);
+      line-height: .92; letter-spacing: -.04em;
+    }
+
+    .timeline {
+      position: relative; padding-left: 1.5rem;
+      border-left: 1px solid var(--border);
+    }
+    .tl-line {
+      position: absolute; left: -1px; top: 0;
+      width: 1px; height: 0; background: var(--accent);
+      transition: height 2s var(--ease);
+    }
+    .timeline.active .tl-line { height: 100%; }
+
+    .exp-card {
+      padding: 2.75rem 0 2.75rem 3rem;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left .3s var(--ease);
+    }
+    .exp-card:last-child { border-bottom: none; }
+    .exp-card:hover { padding-left: 3.5rem; }
+
+    .exp-node {
+      position: absolute; left: -4px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--text-muted);
+      transition: border-color .3s, background .3s, box-shadow .3s;
+      margin-top: .1rem;
+    }
+    .exp-card:hover .exp-node {
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(var(--accent-rgb), .5);
+    }
+    .exp-top {
+      display: flex; justify-content: space-between;
+      align-items: baseline; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: .5rem; position: relative;
+    }
+    .exp-co {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -.025em;
+    }
+    .exp-when {
+      font-family: var(--font-mono); font-size: .66rem;
+      color: var(--text-muted); letter-spacing: .1em;
+    }
+    .exp-role {
+      font-size: .88rem; color: var(--text-dim);
+      font-style: italic; margin-bottom: .25rem;
+    }
+    .now-pill {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-mono); font-size: .6rem;
+      color: var(--accent); letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: .8rem;
+    }
+    .exp-desc {
+      font-size: .9rem; color: var(--text-dim);
+      line-height: 1.75; max-width: 64ch;
+      margin-top: .75rem;
+    }
+    .chip-row {
+      display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem;
+    }
+    .chip {
+      font-family: var(--font-mono); font-size: .62rem;
+      letter-spacing: .04em; color: var(--text-muted);
+      padding: .25rem .7rem; border: 1px solid var(--border);
+      background: var(--bg-2); transition: all .2s var(--ease);
+    }
+    .chip:hover {
+      color: var(--accent); border-color: rgba(var(--accent-rgb),.4);
+      background: rgba(var(--accent-rgb),.04);
+    }
+
+    /* ─── STACK ──────────────────────────────── */
+    #stack {
+      padding: 9rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .stack-groups {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 4rem;
+      border: 1px solid var(--border);
+    }
+    .stack-group {
+      padding: 2rem; border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .stack-group:hover { background: var(--bg-2); }
+    .stack-group:nth-child(3n) { border-right: none; }
+    .stack-group:nth-last-child(-n+3) { border-bottom: none; }
+    .stack-group-name {
+      font-family: var(--font-mono); font-size: .62rem;
+      color: var(--accent); letter-spacing: .18em;
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      padding-bottom: .75rem; border-bottom: 1px solid var(--border);
+    }
+    .stack-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .s-chip {
+      font-family: var(--font-mono); font-size: .68rem;
+      color: var(--text-dim); padding: .3rem .75rem;
+      border: 1px solid var(--border); background: transparent;
+      transition: all .2s var(--ease); cursor: default;
+    }
+    .s-chip:hover {
+      color: var(--accent); border-color: rgba(var(--accent-rgb),.45);
+      background: rgba(var(--accent-rgb),.05); transform: translateY(-2px);
+    }
+
+    /* ─── PROJECTS ───────────────────────────── */
+    #projects {
+      padding: 9rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .project-list { margin-top: 4rem; display: grid; gap: 1px; }
+    .project-item {
+      display: grid; grid-template-columns: 4rem 1fr auto;
+      gap: 2rem; align-items: start;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--border); background: var(--bg-2);
+      text-decoration: none; color: inherit;
+      transition: all .35s var(--ease); position: relative; overflow: hidden;
+    }
+    .project-item::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(var(--accent-rgb),.04) 0%, transparent 55%);
+      opacity: 0; transition: opacity .35s;
+    }
+    .project-item:hover { border-color: rgba(var(--accent-rgb),.25); background: var(--bg-3); }
+    .project-item:hover::before { opacity: 1; }
+    .project-item:hover { transform: translateX(6px); }
+
+    .project-num {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 2.5rem; color: var(--border); line-height: 1;
+      transition: color .35s;
+    }
+    .project-item:hover .project-num { color: rgba(var(--accent-rgb), .25); }
+
+    .project-body {}
+    .project-name {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: -.02em;
+      margin-bottom: .5rem; transition: color .3s;
+    }
+    .project-item:hover .project-name { color: var(--accent); }
+    .project-role-tag {
+      font-family: var(--font-mono); font-size: .65rem;
+      color: var(--accent); letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: .75rem;
+    }
+    .project-desc {
+      font-size: .9rem; color: var(--text-dim); line-height: 1.75;
+      max-width: 60ch;
+    }
+
+    .project-arrow {
+      font-size: 1.4rem; color: var(--text-muted); margin-top: .25rem;
+      transition: all .35s var(--ease);
+    }
+    .project-item:hover .project-arrow {
+      color: var(--accent); transform: translate(4px, -4px);
+    }
+
+    /* ─── CONTACT ────────────────────────────── */
+    #contact {
+      padding: 9rem 0 6rem;
+      border-top: 1px solid var(--border);
+    }
+    .contact-big {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(3.5rem, 9vw, 9rem); line-height: .92;
+      letter-spacing: -.04em; margin-bottom: 4rem;
+    }
+    .contact-big em { color: var(--accent); font-style: normal; }
+    .contact-email {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: clamp(.9rem, 1.8vw, 1.25rem);
+      color: var(--text-dim); text-decoration: none;
+      padding-bottom: .3rem; border-bottom: 1px solid var(--text-muted);
+      transition: all .3s; margin-bottom: 3rem;
+    }
+    .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+    .contact-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .contact-link {
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--text-muted); text-decoration: none;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .3s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .contact-link::before { content: '↗'; opacity: .5; transition: opacity .3s; }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link:hover::before { opacity: 1; }
+
+    /* ─── FOOTER ─────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1.75rem 3.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 100%;
+    }
+    .footer span {
+      font-family: var(--font-mono); font-size: .6rem;
+      color: var(--text-muted); letter-spacing: .12em; text-transform: uppercase;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 1.5rem; }
+      nav.scrolled { padding: .85rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero, .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero-bottom { padding: 0 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 3.5rem; }
+      .stack-groups { grid-template-columns: 1fr 1fr; }
+      .stack-group:nth-child(2n) { border-right: none; }
+      .stack-group:nth-child(3n) { border-right: 1px solid var(--border); }
+      .stack-group:nth-last-child(-n+2) { border-bottom: none; }
+      .project-item { grid-template-columns: 3rem 1fr; }
+      .project-arrow { display: none; }
+      .footer { flex-direction: column; gap: .75rem; text-align: center; padding: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .stack-groups { grid-template-columns: 1fr; }
+      .stack-group { border-right: none !important; }
+      .stack-group:last-child { border-bottom: none; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .hero-scroll-hint { display: none; }
+      .hero-coords { display: none; }
+      .contact-big { font-size: clamp(2.8rem, 14vw, 5rem); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">F<em>.</em>CARDÓN</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Backend Technical Lead · Buenos Aires, Argentina</span>
+    <h1 class="hero-name">
+      <span class="name-row"><span class="name-inner">FRANCO</span></span>
+      <span class="name-row"><span class="name-inner">E. <span class="name-accent">CARDÓN</span></span></span>
+    </h1>
+    <p class="hero-sub">
+      Building <strong>high-performance distributed systems</strong> that scale.<br>
+      Java · Spring Boot · GCP · Kubernetes · Co-founder of <strong>Capibara Estudio</strong>.
+    </p>
+    <div class="hero-actions">
+      <a href="#experience" class="btn btn-fill">See my work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+    <div class="hero-coords">
+      34°42′ S · 58°17′ W
+      <span>Bernal, Buenos Aires</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <div class="container">
+    <span class="section-badge reveal">About</span>
+    <div class="about-inner">
+      <div class="about-left">
+        <div class="stats-grid">
+          <div class="stat reveal d1">
+            <div class="stat-val" data-count="4">0+</div>
+            <span class="stat-key">Years of experience</span>
+          </div>
+          <div class="stat reveal d2">
+            <div class="stat-val" data-count="5">0+</div>
+            <span class="stat-key">Companies</span>
+          </div>
+          <div class="stat reveal d3">
+            <div class="stat-val" data-count="10">0+</div>
+            <span class="stat-key">Microservices built</span>
+          </div>
+          <div class="stat reveal d4">
+            <div class="stat-val" data-count="3">0+</div>
+            <span class="stat-key">Cloud platforms</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-right">
+        <h2 class="about-heading reveal">
+          I architect the invisible layer<br>that makes products scale.
+        </h2>
+        <p class="about-body reveal d1">
+          I'm a backend developer specialized in <strong>Java, Spring Boot, and cloud-native architectures</strong>.
+          I design distributed systems, microservice ecosystems, and the infrastructure that keeps them alive —
+          from event-driven pipelines with Kafka to Kubernetes clusters on GCP.
+        </p>
+        <p class="about-body reveal d2">
+          Beyond my day job, I co-founded <strong>Capibara Estudio</strong> — a B2B SaaS e-commerce platform
+          built from zero. Full architectural ownership: every microservice, every CI/CD decision,
+          every production deployment.
+        </p>
+        <div class="live-badge reveal d3">
+          <span class="live-dot"></span>
+          Currently: Backend Technical Lead @ CFOTech
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ EXPERIENCE ═══════════════════ -->
+<section id="experience">
+  <div class="container">
+    <span class="section-badge reveal">Experience</span>
+    <div class="exp-title-row">
+      <h2 class="section-title reveal">WHERE<br>I'VE<br>WORKED.</h2>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <div class="tl-line" id="tl-line"></div>
+
+      <!-- CFOTech -->
+      <div class="exp-card reveal">
+        <div class="exp-top">
+          <div class="exp-node"></div>
+          <span class="exp-co">CFOTech</span>
+          <span class="exp-when">05/2025 — PRESENT</span>
+        </div>
+        <div class="now-pill"><span class="live-dot"></span> Current role</div>
+        <div class="exp-role">Backend Technical Lead / Referente Técnico Backend</div>
+        <p class="exp-desc">
+          Leading backend architecture for a fintech platform. Specializing in high-performance APIs,
+          PostgreSQL optimization, and cloud-native infrastructure on GCP.
+          Managing Kubernetes workloads, IaaC with Terraform, and identity with KeyCloak.
+        </p>
+        <div class="chip-row">
+          <span class="chip">GCP</span><span class="chip">Pub/Sub</span>
+          <span class="chip">Kubernetes</span><span class="chip">Docker</span>
+          <span class="chip">Terraform</span><span class="chip">Spring Boot</span>
+          <span class="chip">PostgreSQL</span><span class="chip">ElasticSearch</span>
+          <span class="chip">KeyCloak</span><span class="chip">GitHub Actions</span>
+        </div>
+      </div>
+
+      <!-- Darwoft -->
+      <div class="exp-card reveal d1">
+        <div class="exp-top">
+          <div class="exp-node"></div>
+          <span class="exp-co">Darwoft</span>
+          <span class="exp-when">10/2024 — 05/2025</span>
+        </div>
+        <div class="exp-role">Fullstack Developer — Java / React</div>
+        <p class="exp-desc">
+          Event-driven architecture with Apache Kafka. Full SDLC participation including
+          functional and impact analysis. CI/CD with Jenkins and code quality via SonarQube.
+        </p>
+        <div class="chip-row">
+          <span class="chip">Kafka</span><span class="chip">Spring Boot</span>
+          <span class="chip">Spring Data</span><span class="chip">Redux</span>
+          <span class="chip">OpenShift</span><span class="chip">Jenkins</span>
+          <span class="chip">SonarQube</span>
+        </div>
+      </div>
+
+      <!-- AYI Group -->
+      <div class="exp-card reveal d2">
+        <div class="exp-top">
+          <div class="exp-node"></div>
+          <span class="exp-co">AYI Group</span>
+          <span class="exp-when">01/2024 — 09/2024</span>
+        </div>
+        <div class="exp-role">Fullstack Developer — Java / React</div>
+        <p class="exp-desc">
+          Microservices with Jakarta EE and JAX-RS. Complex PL/SQL queries and
+          REST API design. Material UI + Redux frontend integration.
+        </p>
+        <div class="chip-row">
+          <span class="chip">Spring Boot</span><span class="chip">JAX-RS</span>
+          <span class="chip">Jakarta EE</span><span class="chip">PL/SQL</span>
+          <span class="chip">MaterialUI</span><span class="chip">Redux</span>
+        </div>
+      </div>
+
+      <!-- IT Patagonia -->
+      <div class="exp-card reveal d3">
+        <div class="exp-top">
+          <div class="exp-node"></div>
+          <span class="exp-co">IT Patagonia</span>
+          <span class="exp-when">01/2021 — 12/2023</span>
+        </div>
+        <div class="exp-role">Java Backend Developer</div>
+        <p class="exp-desc">
+          Three years building enterprise backend applications. Designed and maintained
+          microservices, REST APIs, and data persistence layers with Spring Data JPA and Hibernate.
+          Worked with MongoDB and SQL databases in production environments.
+        </p>
+        <div class="chip-row">
+          <span class="chip">Spring Boot</span><span class="chip">Spring Security</span>
+          <span class="chip">Hibernate</span><span class="chip">MongoDB</span>
+          <span class="chip">MySQL</span><span class="chip">SQL</span>
+          <span class="chip">Thymeleaf</span>
+        </div>
+      </div>
+
+      <!-- Capibara -->
+      <div class="exp-card reveal d4">
+        <div class="exp-top">
+          <div class="exp-node"></div>
+          <span class="exp-co">Capibara Estudio</span>
+          <span class="exp-when">2023 — PRESENT</span>
+        </div>
+        <div class="now-pill"><span class="live-dot"></span> Active venture</div>
+        <div class="exp-role">Co-Founder & Fullstack Developer</div>
+        <p class="exp-desc">
+          Co-founded a B2B SaaS e-commerce platform. Full ownership from architecture
+          decisions to production deployments. Designed the entire microservice ecosystem,
+          multi-tenant data model, CI/CD pipelines, and React backoffice from scratch.
+        </p>
+        <div class="chip-row">
+          <span class="chip">Java</span><span class="chip">Spring Boot</span>
+          <span class="chip">React</span><span class="chip">TypeScript</span>
+          <span class="chip">AWS S3</span><span class="chip">AWS SQS</span>
+          <span class="chip">Redis</span><span class="chip">PostgreSQL</span>
+          <span class="chip">Spring Security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ STACK ═══════════════════ -->
+<section id="stack">
+  <div class="container">
+    <span class="section-badge reveal">Tech Stack</span>
+    <h2 class="section-title reveal">WHAT I<br>BUILD WITH.</h2>
+
+    <div class="stack-groups">
+      <div class="stack-group reveal d1">
+        <div class="stack-group-name">Backend</div>
+        <div class="stack-chips">
+          <span class="s-chip">Java 8–21</span>
+          <span class="s-chip">Spring Boot</span>
+          <span class="s-chip">Spring Data JPA</span>
+          <span class="s-chip">Spring Security</span>
+          <span class="s-chip">Hibernate</span>
+          <span class="s-chip">Apache Kafka</span>
+          <span class="s-chip">Redis</span>
+          <span class="s-chip">REST APIs</span>
+          <span class="s-chip">Microservices</span>
+        </div>
+      </div>
+      <div class="stack-group reveal d2">
+        <div class="stack-group-name">Cloud & Infrastructure</div>
+        <div class="stack-chips">
+          <span class="s-chip">GCP</span>
+          <span class="s-chip">Pub/Sub</span>
+          <span class="s-chip">Kubernetes</span>
+          <span class="s-chip">Docker</span>
+          <span class="s-chip">Terraform</span>
+          <span class="s-chip">AWS S3</span>
+          <span class="s-chip">AWS SQS</span>
+          <span class="s-chip">OpenShift</span>
+        </div>
+      </div>
+      <div class="stack-group reveal d3">
+        <div class="stack-group-name">Databases</div>
+        <div class="stack-chips">
+          <span class="s-chip">PostgreSQL</span>
+          <span class="s-chip">MySQL</span>
+          <span class="s-chip">MongoDB</span>
+          <span class="s-chip">Oracle</span>
+          <span class="s-chip">PL/SQL</span>
+        </div>
+      </div>
+      <div class="stack-group reveal d1">
+        <div class="stack-group-name">DevOps & Monitoring</div>
+        <div class="stack-chips">
+          <span class="s-chip">GitHub Actions</span>
+          <span class="s-chip">Jenkins</span>
+          <span class="s-chip">SonarQube</span>
+          <span class="s-chip">ElasticSearch</span>
+          <span class="s-chip">Dynatrace</span>
+          <span class="s-chip">KeyCloak</span>
+          <span class="s-chip">GitLab CI</span>
+        </div>
+      </div>
+      <div class="stack-group reveal d2">
+        <div class="stack-group-name">Frontend</div>
+        <div class="stack-chips">
+          <span class="s-chip">React</span>
+          <span class="s-chip">TypeScript</span>
+          <span class="s-chip">Redux</span>
+          <span class="s-chip">Astro</span>
+          <span class="s-chip">Tailwind CSS</span>
+          <span class="s-chip">JavaScript</span>
+        </div>
+      </div>
+      <div class="stack-group reveal d3">
+        <div class="stack-group-name">Version Control & Tools</div>
+        <div class="stack-chips">
+          <span class="s-chip">Git</span>
+          <span class="s-chip">GitHub</span>
+          <span class="s-chip">GitLab</span>
+          <span class="s-chip">BitBucket</span>
+          <span class="s-chip">Dynatrace</span>
+          <span class="s-chip">Postman</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects">
+  <div class="container">
+    <span class="section-badge reveal">Projects</span>
+    <h2 class="section-title reveal">THINGS I'VE<br>BUILT.</h2>
+
+    <div class="project-list">
+      <!-- Capibara -->
+      <div class="project-item reveal d1">
+        <div class="project-num">01</div>
+        <div class="project-body">
+          <div class="project-name">Capibara Estudio</div>
+          <div class="project-role-tag">Co-Founder · 2023 — Present</div>
+          <p class="project-desc">
+            B2B SaaS e-commerce platform for multi-store management. Designed and built the entire
+            microservice architecture from zero — product catalog, order management, user services,
+            and a React backoffice with multi-tenant data isolation.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Java</span><span class="chip">Spring Boot</span>
+            <span class="chip">React</span><span class="chip">AWS</span>
+            <span class="chip">Redis</span><span class="chip">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </div>
+
+      <!-- ANSES -->
+      <div class="project-item reveal d2">
+        <div class="project-num">02</div>
+        <div class="project-body">
+          <div class="project-name">ANSES Director Integration</div>
+          <div class="project-role-tag">Backend Developer · NacionServicios</div>
+          <p class="project-desc">
+            Complex WCF/HTTP integration with Argentina's national social security system.
+            Solved deep protocol compatibility issues — PKCS7/SMIME authentication with
+            BouncyCastle + OpenSSL. Token caching strategy to handle 4-minute propagation lag.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Java</span><span class="chip">Spring Boot</span>
+            <span class="chip">PKCS7</span><span class="chip">BouncyCastle</span>
+            <span class="chip">OpenSSL</span><span class="chip">WCF</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact">
+  <div class="container">
+    <span class="section-badge reveal">Contact</span>
+    <h2 class="contact-big reveal">
+      LET'S BUILD<br>SOMETHING<br><em>TOGETHER.</em>
+    </h2>
+    <a href="mailto:cardonfranco@gmail.com" class="contact-email reveal d1">
+      cardonfranco@gmail.com
+    </a>
+    <div class="contact-row reveal d2">
+      <a href="https://github.com/FrancoCardon77" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/franco-cardon" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>Franco E. Cardón © 2025</span>
+  <span>Engineered · Bernal, Argentina</span>
+</footer>
+
+<script>
+  /* ── CURSOR ── */
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  const interactables = 'a, button, .stat, .exp-card, .project-item, .s-chip, .chip';
+  document.querySelectorAll(interactables).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  (function animRing() {
+    rx += (mx - rx) * 0.13;
+    ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  /* ── NAV ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── REVEAL ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 }).observe = (() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+      });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => obs.observe(el));
+  })();
+
+  /* ── TIMELINE FILL ── */
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('active');
+    });
+  }, { threshold: 0.05 }).observe(document.getElementById('timeline'));
+
+  /* ── COUNTERS ── */
+  function countUp(el, target) {
+    let start = null;
+    const dur = 1400;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    function step(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / dur, 1);
+      el.textContent = Math.floor(ease(p) * target) + '+';
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        countUp(e.target, parseInt(e.target.dataset.count));
+        countObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+  /* ── SMOOTH SCROLL ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
